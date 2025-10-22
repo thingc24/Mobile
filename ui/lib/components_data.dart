@@ -109,7 +109,7 @@ final List<Map<String, dynamic>> uiComponents = [
     'widget': Center(
       child: ElevatedButton(
         onPressed: () {},
-        child: Text('Tôi đã sẵn sàng'),
+        child: Text('Hãy ấn tôi'),
       ),
     ),
   },
