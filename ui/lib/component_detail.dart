@@ -9,6 +9,7 @@ class ComponentDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(component['title'])),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: component['widget'],
