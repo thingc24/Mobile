@@ -1,46 +1,43 @@
 import 'package:flutter/material.dart';
-import 'splash_screen.dart';
-import 'firstscreen.dart';
-import 'secondscreen.dart';
-import 'thirdscreen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'login.dart';
+import 'profile.dart';
 
-void main() {
-  runApp(SmartTasksApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 }
 
-class SmartTasksApp extends StatelessWidget {
-  const SmartTasksApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: SplashScreen()
-    );
-  }
-}
-class OnboardingScreen extends StatefulWidget {
-  @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends State<OnboardingScreen> {
-  PageController _pageController = PageController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white, // Đổi background thành màu trắng
-      body: Stack(
-        children: [
-          PageView(
-            controller: _pageController,
-            children: [
-              OnboardingPage1(pageController: _pageController),
-              OnboardingPage2(pageController: _pageController),
-              OnboardingPage3(pageController: _pageController),
-            ],
-          ),
-        ],
+      title: 'UTHSmartTasks',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
       ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginScreen(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/profile') {
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          return MaterialPageRoute(
+            builder: (context) => ProfileScreen(
+              name: args['name'] ?? '',
+              email: args['email'] ?? '',
+              dateOfBirth: args['dateOfBirth'] ?? '',
+              avatarUrl: args['avatarUrl'] ?? '',
+            ),
+          );
+        }
+        return null;
+      },
     );
   }
 }
